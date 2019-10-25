@@ -13,10 +13,8 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
 
 file = "D:\\My Desktop\\WLU\\CP322-Machine Learning\\FP\\dataset\\winequality.data"
-# file = "D:\\My Desktop\\WLU\\CP322-Machine Learning\\FP\\dataset\\iris.data"
 names = ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide",
          "total sulfur dioxide", "density", "pH", "sulphates", "alcohol", "quality"]
-# names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
 
 dataset = pandas.read_csv(file, names=names)
 pandas.set_option('display.width', None)
