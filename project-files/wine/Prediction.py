@@ -18,7 +18,7 @@ dataset = dataset.drop(['density'], axis=1)
 # handle the outliers
 for i in range(dataset.index.max()):
     if any([
-        dataset.loc[i, 'fixed acidity'] not in range(5, 9),
+        dataset.loc[i, 'fixed acidity'] not in [5, 6, 7, 9],
         dataset.loc[i, 'volatile acidity'] > 0.5,
         dataset.loc[i, 'citric acid'] < 0.2 or dataset.loc[i, 'citric acid'] > 0.7,
         dataset.loc[i, 'free sulfur dioxide'] > 100,
@@ -41,10 +41,10 @@ X_train_scaled = preprocessing.scale(X_train)
 # apply the linear discrimination model
 model = dis.LinearDiscriminantAnalysis()
 model.fit(X_train, Y_train)
-y_pred = model.predict(X_test)
+prediction = model.predict(X_test)
 
 # calculate the accuracy of the prediction
-x = np.array(y_pred).tolist()
+x = np.array(prediction).tolist()
 y = np.array(Y_test).tolist()
 
 accurate = 0
@@ -54,4 +54,6 @@ for i in range(len(x)):
         accurate += 1
 
 accuracy = round(float(accurate / len(x)), 4) * 100
-print(str(accuracy) + '%')
+
+# print the accuracy
+print('The accuracy achieved is: ' + str(accuracy) + '%')
