@@ -3,34 +3,42 @@ from pandas.plotting import scatter_matrix
 import matplotlib.pyplot as plt
 
 
-file = "D:\\My Desktop\\WLU\\CP322-Machine Learning\\FP\\dataset\\quality-white.csv"
+file = "D:\\My Desktop\\WLU\\CP322-Machine Learning\\FP\\dataset\\modified_dataset.csv"
 names = ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "chlorides", "free sulfur dioxide",
          "total sulfur dioxide", "density", "pH", "sulphates", "alcohol", "quality"]
 
-data = pandas.read_csv(file, names=names)
+dataset = pandas.read_csv(file, names=names)
 pandas.set_option('display.width', None)
 
-data = data.drop(['quality'], axis=1)
+dataset = dataset.drop(['quality'], axis=1)
 
 
-print(data.head())
+print(dataset.head())
 print('...')
-print(data.tail())
+print(dataset.tail())
 
-print(data.describe())
+print(dataset.describe())
 
-data.plot(kind='box', subplots=True, layout=(4, 3), sharex=False, sharey=False)
+dataset.plot(kind='box', subplots=True, layout=(4, 3), sharex=False, sharey=False)
 plt.show()
 
-scatter_matrix(data)
+dataset = dataset.drop(['chlorides'], axis=1)
+for i in range(dataset.index.max()):
+    if any([
+        dataset.loc[i, 'fixed acidity'] not in [5, 6, 7, 8, 9],
+        dataset.loc[i, 'volatile acidity'] > 0.5,
+        dataset.loc[i, 'citric acid'] < 0.2 or dataset.loc[i, 'citric acid'] > 0.7,
+        dataset.loc[i, 'free sulfur dioxide'] > 100,
+        dataset.loc[i, 'total sulfur dioxide'] > 250,
+        dataset.loc[i, 'pH'] < 1.5 or dataset.loc[i, 'pH'] > 3.7,
+        dataset.loc[i, 'sulphates'] > 0.8
+    ]):
+        dataset.drop([i], inplace=True)
+
+dataset.plot(kind='box', subplots=True, layout=(4, 3), sharex=False, sharey=False)
 plt.show()
 
-for ele in [5, 6, 7, 9]:
-    for i in range(data.index.max()):
-        if any([
-            data.loc[i, 'fixed acidity'] != int(ele)
-        ]):
-            data.drop([i], inplace=True)
-    data.hist()
-    plt.show()
+dataset = dataset.drop(['density'], axis=1)
+scatter_matrix(dataset)
+plt.show()
 
