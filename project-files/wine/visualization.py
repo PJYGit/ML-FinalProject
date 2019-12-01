@@ -10,14 +10,13 @@ names = ["fixed acidity", "volatile acidity", "citric acid", "residual sugar", "
 dataset = pandas.read_csv(file, names=names)
 pandas.set_option('display.width', None)
 
-dataset = dataset.drop(['quality'], axis=1)
-
-
 print(dataset.head())
 print('...')
 print(dataset.tail())
 
 print(dataset.describe())
+
+dataset = dataset.drop(['quality'], axis=1)
 
 dataset.plot(kind='box', subplots=True, layout=(4, 3), sharex=False, sharey=False)
 plt.show()
